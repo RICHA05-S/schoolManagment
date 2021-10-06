@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <style>
+ #bg {
+    z-index:-1;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+</style>
+<img src="{% static 'bg.png'%}" id="bg" alt="">
+   <div class="signup-form container">
+    <form action="{% url 'myapp:subject_update' user.id %}" method="post">
+         {% csrf_token %}
+           <h2 class="text-center mt-5 table-light" style=" color:black">Add Subjects</h2>
+           <div class="form-group">
+           <label>Subject</label>
+            <input type="text" class="form-control" name="sub_name" placeholder="Subjects" value="{{user.sub_name}}" required="required"><br><br>
+           <label>Description</label>
+           <input type="text" class="form-control" name="description" placeholder="description" value="{{user.description}}" required="required">
+        </div>
+        <br>
+       <br>
+        <br>
+        <div class="form-group">
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Update Now</button>
+        </div>
+    </form>
+   </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% include "footer.html" %}
+
+{% endblock %}

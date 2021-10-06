@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <style>
+ #bg {
+    z-index:-1;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+</style>
+
+<img src="{% static 'bg.png'%}" id="bg" alt="">
+ {% if messages %}
+        {% for message in messages %}
+       <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+  <div class="toast" style="position: absolute; top: 0; right: 0;">
+    <div class="toast-header">
+      <img src="..." class="rounded mr-2" alt="...">
+      <strong class="mr-auto">{{message}}</strong>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body">
+      {{message}}
+    </div>
+  </div>
+</div>
+
+        {% endfor %}
+    {% endif %}
+
+<!--a-->
+<div class="container">
+   <div class="container"></div>
+    <div style="background-color:#535e5a ">
+    <h2 class="text-center mt-5 background-color:grey " style= "color:black"> Marks </h2></div>
+    <table cellpadding="2" cellspacing="0" border="1" class=" table table-hover">
+        {% if marks_obj %}
+        <thead>
+          <tr class="table-dark">
+             <th>Subjects</th>
+              <th>Marks</th>
+              <th>Description</th>
+              <th>Delete</th>
+              <th>Update</th>
+        </tr>
+        </thead>
+       {% for subject in marks_obj %}
+        <tbody>
+       <tr>
+           <td>{{ subject.subject.sub_name }}</td>
+           <td>{{ subject.total_marks }}</td>
+           <td>{{ subject.description }}</td>
+           <td>
+               <a href="{% url 'myapp:subject_delete' subject.id %}"><button>Delete</button></a>
+
+           </td>
+           <td>
+                      <a href="{% url 'myapp:subject_update' subject.id %}"><button >Update</button></a>
+           </td>
+           {% endfor %}
+           {% endif %}
+       </tr>
+        </tbody>
+    </table>
+    <form action="{% url 'myapp:add_marks' id %}" method="post">
+         {% csrf_token %}
+        <div>
+		 <h2 class="text-center mt-5 background-color:grey " style= "color:black"> Add Marks </h2></div>
+       <div class="form-group">
+           <select class="form-select" name="subject" aria-label="Default select example">
+               {% for subject in subjects %}
+               <option value= "{{subject}}">{{subject}}</option>
+               {% endfor %}
+           </select><br>
+            <input type="text" class="form-control" name="total_marks" placeholder="marks" required="required"><br>
+           <input type="text" class="form-control" name="description" placeholder="description" required="required">
+        </div>
+        <br>
+        <button class="btn btn-primary">Submit</button>
+        <hr>
+
+    </form>
+<br>
+<br>
+<br>
+    </div>
+{% include "footer.html" %}
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+ #bg {
+    z-index:-1;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+</style>
+<div class="container">
+<img src="{% static 'bg.png'%}" id="bg" alt="">
+<div class="container"></div>
+<div style="background-color:#535e5a ">
+    <h2 class="text-center mt-5 table-light" style=" color:black">Teacher</h2></div>
+    <table cellpadding="2" cellspacing="0" border="1" class=" table table-hover">
+        {% if context %}
+        <thead>
+        <tr class="table-dark">
+            <th>First Name </th>
+            <th>Last Name </th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>User Type</th>
+
+
+        </tr>
+         </thead>
+ <tbody>
+    {% for user in context %}
+       <tr>
+             <td>{{ user.first_name }} </td>
+             <td>{{ user.last_name }} </td>
+             <td>{{ user.username }}</td>
+             <td>{{ user.email }} </td>
+            <td>{{ user.profile.phone_number }} </td>
+             <td>{{ user.profile.user_type }} </td>
+
+       </tr>
+      </tbody>
+        {% endfor %}
+        {% endif %}
+    </table>
+</div>
+{% include "footer.html" %}
+
+{% endblock %}

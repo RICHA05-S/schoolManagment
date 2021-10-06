@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <style>
+ #bg {
+    z-index:-1;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+</style>
+<div class="container">
+<img src="{% static 'bg.png'%}" id="bg" alt="">
+   <div class="signup-form container">
+    <form action="{% url 'myapp:add_subj' %}" method="post">
+         {% csrf_token %}
+        <div>
+        <h2 class="text-center mt-5 table-light" style=" color:black">Add Subjects</h2>
+        </div>
+
+
+        <div class="text-center">
+            <b>Created Subjects</b><br><hr>
+            {% for subject in subjects%}
+            {{subject.sub_name}}<br>
+            {% endfor %}
+
+        </div>
+       <div class="form-group">
+           <label>Subject</label>
+            <input type="text" class="form-control" name="subject" placeholder="Subjects" required="required"><br><br>
+           <label>Description</label>
+           <input type="text" class="form-control" name="description" placeholder="description" required="required">
+        </div>
+        <br>
+         <a href="{% url 'myapp:subject_profile' %}"><button type="button" class="btn btn-light">View All subjects </button></a>
+        <button class="btn btn-primary">submit</button>
+
+    </form>
+   </div>
+<br>
+<br>
+</div>
+{% include "footer.html" %}
+
+{% endblock %}

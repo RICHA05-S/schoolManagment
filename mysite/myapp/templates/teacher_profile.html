@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <style>
+ #bg {
+    z-index:-1;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+</style>
+<div class="container">
+<img src="{% static 'bg.png'%}" id="bg" alt="">
+<div class="container"></div>
+<div style="background-color:#535e5a ">
+    <h2 class="text-center mt-5 background-color:grey " style= "color:black">Teacher</h2></div>
+    <table cellpadding="2" cellspacing="0" border="1" class=" table table-hover">
+        {% if page_obj %}
+
+  <thead>
+    <tr class="table-dark">
+            <th>First Name </th>
+            <th >Last Name </th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>User Type</th>
+            <th>Update</th>
+            <th>Add Marks</th>
+        </tr>
+  </thead>
+ <tbody>
+    {% for user in page_obj %}
+       <tr>
+           <td>{{ user.first_name }} </td>
+           <td>{{ user.last_name }} </td>
+           <td>{{ user.profile.phone_number }} </td>
+           <td>{{ user.email }} </td>
+           <td>{{ user.profile.user_type }} </td>
+           <td>
+               <a href="{% url 'myapp:user_update' user.id %}"><button type="button" class="btn btn-light">Update</button></a>
+
+           <td>
+             <a href="{% url 'myapp:add_marks' user.id %}"><button type="button" class="btn btn-light">Add Marks</button></a>
+           </td>
+       </tr>
+      </tbody>
+           {% endfor %}
+            {% endif %}
+    </table>
+ <nav aria-label="Page navigation example">
+  <ul class="pagination">
+      {% if page_obj.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+       {% else %}
+      <li class="page-item"><a class="page-link" href="javascript:void(0)"><span>Previous</span></a></li>
+      {% endif %}
+    {% for i in page_obj.paginator.page_range %}
+      {% if users.number == i %}
+    <li class="disabled page-item"><a class="page-link" href="#">{{i}}</a></li>
+       {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+      {% else %}
+      <li class=" page-item"><a class="page-link" href="javascript:void(0)"><span>Next</span></a></li>
+    {% endif %}
+  </ul>
+</nav>
+<p><a href="{% url 'myapp:user_add' %}" ><button type="button" class="btn btn-light">Add Students</button> </a>
+
+<a href="{% url 'myapp:add_subj' %}"><button type="button" class="btn btn-light">Add Subjects </button></a></p>
+<br>
+<br>
+<br>
+<br>
+    </div>
+{% include "footer.html" %}
+
+{% endblock %}

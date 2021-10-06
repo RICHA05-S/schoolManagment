@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <style>
+ #bg {
+    z-index:-1;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+</style>
+<div class="container">
+<img src="{% static 'bg.png'%}" id="bg" alt="">
+<div class="container"></div>
+<div style="background-color:#535e5a ">
+    <h2 class="text-center mt-5 table-light" style=" color:black">Subjects List </h2></div>
+    <table cellpadding="2" cellspacing="0" border="1" class=" table table-hover">
+        {% if subjects %}
+        <thead>
+            <tr class="table-dark">
+            <th>Subjects</th>
+            <th>Description</th>
+            <th>Delete</th>
+            <th>Update</th>
+        </tr>
+        </thead>
+       {% for subject in subjects %}
+        <tbody>
+       <tr>
+           <td>{{ subject.sub_name }}</td>
+           <td>{{ subject.description }}</td>
+           <td>
+               <a href="{% url 'myapp:subject_delete' subject.id %}"><button type="button" class="btn btn-light">Delete</button></a>
+
+           </td>
+           <td>
+                     <a href="{% url 'myapp:subject_update' subject.id %}"><button type="button" class="btn btn-light">Update</button></a>
+           </td>
+          </tr>
+        </tbody>
+           {% endfor %}
+           {% endif %}
+
+    </table>
+<br>
+<br>
+<br>
+<br>
+    </div>
+{% include "footer.html" %}
+
+{% endblock %}

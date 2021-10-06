@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+ #bg {
+    z-index:-1;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+</style>
+<img src="{% static 'bg.png'%}" id="bg" alt="">
+<div class="container"></div>
+<div style="background-color:#535e5a ">
+    <h2 class="text-center mt-5 table-light" style=" color:black">Teacher</h2></div>
+    <table cellpadding="2" cellspacing="0" border="1" class=" table table-hover">
+        {% if page_obj %}
+        <thead>
+        <tr class="table-dark">
+            <th>Subject Name </th>
+            <th>Description</th>
+            <th>Created Date</th>
+            <th>Updated Date</th>
+            <th>Status</th>
+
+        </tr>
+         </thead>
+ <tbody>
+    {% for user in page_obj %}
+       <tr>
+             <td>{{ user.first_name }} </td>
+             <td>{{ user.last_name }} </td>
+             <td>{{ user.profile.phone_number }} </td>
+             <td>{{ user.email }} </td>
+             <td>{{ user.profile.user_type }} </td>
+
+       </tr>
+      </tbody>
+        {% endfor %}
+        {% endif %}
+    </table>
+        <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in page_obj.paginator.page_range %}
+      {% if users.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if users.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+     <p><a href="{% url 'myapp:user_add' %}"><button type="button" class="btn btn-light">Add</button></a></p>
+
+
+{% include "footer.html" %}
+
+{% endblock %}

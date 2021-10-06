@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% load calculation %}
+
+    <style>
+ #bg {
+    z-index:-1;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+</style>
+<img src="{% static 'bg.png'%}" id="bg" alt="">
+
+<div class="ScriptTop">
+    <div class="rt-container">
+        <div class="col-rt-4" id="float-right">
+        </div>
+    </div>
+</div>
+<header class="ScriptHeader">
+    <div class="rt-container">
+    	<div class="col-rt-12">
+        	<div class="rt-heading">
+                 <h2 class="text-center mt-5 table-light" style=" color:black"> Student Report Card </h2></div>
+
+        </div>
+    </div>
+</header>
+<section>
+    <div class="rt-container">
+          <div class="col-rt-12">
+              <div class="Scriptcontent">
+                  <!-- Student Profile -->
+<div class="student-profile py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-header text-center">
+            <img class="profile_img" width="300px" height="px" src="https://source.unsplash.com/600x300/?student" alt="student dp">
+
+            <h3>{{user.username }}</h3>
+          </div>
+          <div class="card-body">
+            <p class="mb-0"><strong class="pr-1">Student Name:</strong>{{ user.username }}</p>
+            <p class="mb-0"><strong class="pr-1">Class:</strong>4</p>
+          </div>
+        </div>
+      </div>
+        <br>
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-header  border-0">
+              <h3 class="mb-0" style="background-color:grey" ><i class="fas fa-address-card"></i><span> Student Information</span></h3>
+          </div>
+          <div class="card-body pt-0">
+            <table class="table table-bordered">
+              <tr>
+                <th width="30%">Email</th>
+                <td width="2%">:</td>
+                <td>{{user.email}}</td>
+              </tr>
+                 <tr>
+                <th width="30%">Phone Number</th>
+                <td width="2%">:</td>
+                <td>{{user.profile.phone_number}}</td>
+              </tr>
+              <tr>
+                <th width="30%">Academic year</th>
+                <td width="2%">:</td>
+                <td>2020</td>
+              </tr>
+              <tr>
+                <th width="30%">Religion</th>
+                <td width="2%">:</td>
+                <td>Group</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+          <div style="height: 26px"></div>
+        <div class="card shadow-sm">
+          <div class="card-header  border-0">
+           <h3 class="mb-0" style="background-color:grey"><i class="fas fa-book-reader"></i> Report Card</h3>
+          </div>
+             <div class="signup-form container">
+       <table class="table" cellpadding="10" cellspacing="0" border="1">
+         {% if marks_obj  %}
+           <thead class="thead-dark">
+        <tr>
+            <th>Subjects</th>
+
+            <th>Marks</th>
+
+
+            <th>Description</th>
+            <th>Grade</th>
+
+
+        </tr>
+           </thead>
+           <tbody>
+           {% for student in marks_obj  %}
+
+           <tr>
+               <td>{{ student.subject.sub_name }}</td>
+
+               <td>{{ student.total_marks }}/100</td>
+                 <td>{{ student.description }}</td>
+                <td>{% calculation_marks student.total_marks  %}</td>
+           </tr>
+
+           {% endfor %}
+           </tbody>
+           {% endif %}
+
+    </table>
+        </div>
+             <div style="height: 26px"></div>
+        <div class="card shadow-sm">
+          <div class="card-header  border-0">
+           <h3 class="mb-0" style="background-color:grey"><i class="fas fa-award"></i>  Progress Card</h3>
+          </div>
+             <div class="signup-form container">
+       <table class="table" cellpadding="10" cellspacing="0" border="1">
+
+           <thead class="thead-dark">
+        <tr>
+            <th>Average Marks</th>
+
+            <th>Min Marks</th>
+
+            <th>Max Marks </th>
+
+        </tr>
+           </thead>
+           <tbody>
+
+
+
+           <tr>
+               <td>{{ average.total_marks__avg }}</td>
+               <td>  {{ max_subject }}</td>
+                 <td>{{ min_subject }}</td>
+
+
+           </tr>
+
+
+           </tbody>
+
+
+    </table>
+        </div>
+
+      </div>
+    </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    		</div>
+		</div>
+    </div>
+</section>
+   <a href="{% url 'myapp:pdf_report' user.id %}"><button type="button" class="btn btn-light">Create Pdf </button></a>
+    <button type="button" class="btn btn-light">Preview Report</button>
+
+
+<script>
+
+  $(document).ready(function(){
+    const btn = document.querySelector('button');
+
+    btn.addEventListener('click', function(id){
+        alert(id)
+<!--          $.ajax({-->
+<!--            type: "GET",-->
+<!--            ContentType: "application/json; charset=utf-8",-->
+<!--            url: `pdf_report/${id}/`,-->
+<!--            success: function(response){-->
+<!--                   alert('file created')-->
+<!--             });-->
+
+    };
+ });
+
+
+
+</script>
+<br>
+<br>
+<br>
+<br>
+{% include "footer.html" %}
+
+{% endblock %}
+
