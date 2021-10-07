@@ -26,6 +26,8 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 # Create your views here.
 
+
+# This is Home Page
 class HomeView(View):
     template_name = 'home.html'
 
@@ -34,7 +36,7 @@ class HomeView(View):
     def post(self, request):
         return render(request, 'home.html')
 
-
+# This is about us student get the information about school
 class AboutUsView(View):
     template_name = 'aboutus.html'
 
@@ -167,7 +169,7 @@ class PasswordResetConfirmView(View):
 
         return redirect('myapp:login')
 
-
+# Admin can see own profile details
 class AdminProfileView(View):
     template_name = 'admin_profile.html'
 
@@ -175,13 +177,14 @@ class AdminProfileView(View):
         user = Profile.objects.get(user=request.user)
         context = {
             'user_type': user.user_type,
-            'teacher_profile': User.objects.filter(Q(profile__user_type='Teacher')
+            'teacher_profile': User.objects.filter(Q(profile__user_type='Admin')
                                                    )}
         return render(request, 'teacherprofile.html', {'context': context})
 
     def post(self,request):
         return render(request, 'teacherprofile.html')
 
+#admin can update own profile detail
 class AdminProfileUpdateView(View):
     def get(self, request, id):
         update = User.objects.get(pk=id)
@@ -268,7 +271,7 @@ class ProfileDeleteView(View):
          user.delete()
          return redirect('myapp:user_profile')
 
-
+# teacher can see own profile details
 class TeacherprofileView(View):
 
     def get(self,request):
@@ -279,7 +282,7 @@ class TeacherprofileView(View):
                                                 )}
         return render(request, 'teacherprofile.html', {'context': context})
 
-
+#teacher can update own profile details
 class TeacherProfileUpdateView(View):
     def get(self, request, id):
         update = User.objects.get(pk=id)
@@ -293,7 +296,7 @@ class TeacherProfileUpdateView(View):
             return redirect('myapp:teacherprofile')
         return render(request, 'teacher_profile_update.html', {'upt_form': upt_form, 'user': update})
 
-
+# teacher Home page
 class TeacherProfileView(View):
 
     def get(self, request):
@@ -320,15 +323,17 @@ class TeacherProfileView(View):
     def post(self, request):
         return render(request, 'teacher_profile.html')
 
+# Studnet can update own detail
 class StudentprofileView(View):
     def get(self, request):
         user = Profile.objects.get(user=request.user)
         context = {
             'user_type': user.user_type,
-            'teacher_profile': User.objects.filter(Q(profile__user_type='Teacher')
+            'teacher_profile': User.objects.filter(Q(profile__user_type='Student')
                                                    )}
         return render(request, 'teacherprofile.html', {'context': context})
 
+#studnet can update own details
 class StudentProfileUpdateView(View):
     def get(self, request, id):
         update = User.objects.get(pk=id)
@@ -342,6 +347,7 @@ class StudentProfileUpdateView(View):
             return redirect('myapp:studentprofile')
         return render(request, 'student_profile_update.html', {'upt_form': upt_form, 'user': update})
 
+#Studnet Home page
 class StudentProfileView(View):
 
     def get(self, request):

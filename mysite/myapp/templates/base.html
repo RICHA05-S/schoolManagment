@@ -80,18 +80,44 @@
 
 
     </div>
-    {% if user.is_authenticated %}
+        {% if user.is_authenticated and type_obj=="Teacher"  %}
+       <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center justify-content-center p-3 text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="far fa-user-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+                        <li><a class="dropdown-item" href="{% url 'myapp:adminprofile' %}">My Profile.</a></li>
+                         <li><a class="dropdown-item" href="{% url 'myapp:user_profile' %}">Admin Home .</a></li>
+                        <li><a class="dropdown-item" href="{% url 'myapp:admin_profile_update' user.id %}">Edit</a></li>
+                        <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+    {% elif user.is_authenticated and type_obj=="Teacher"  %}
       <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-    <i class="fad fa-user-circle"></i>
-  </button>
+                    <a href="#" class="d-flex align-items-center justify-content-center p-3 text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="far fa-user-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+                        <li><a class="dropdown-item" href="{% url 'myapp:Teacherprofile' %}">My Profile.</a></li>
+                         <li><a class="dropdown-item" href="{% url 'myapp:teacher_profile' %}">Teacher Home .</a></li>
+                        <li><a class="dropdown-item" href="{% url 'myapp:teacher_profile_update' user.id %}">Edit</a></li>
+                        <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+      {% elif user.is_authenticated and type_obj=="Student"  %}
+      <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center justify-content-center p-3 text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="far fa-user-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+                        <li><a class="dropdown-item" href="{% url 'myapp:studentprofile' %}">My Profile.</a></li>
+                         <li><a class="dropdown-item" href="{% url 'myapp:student_report_card' %}">Teacher Home .</a></li>
+                        <li><a class="dropdown-item" href="{% url 'myapp:student_profile_update' user.id %}">Edit</a></li>
+                        <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">Logout</a></li>
+                    </ul>
+                </div>
 
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    <li><a class="dropdown-item" href="{% url 'myapp:teacherprofile' %}">My Profile</a></li>
-    <li><a class="dropdown-item" href="{% url 'myapp:teacher_profile_update' user.id %}">Edit</a></li>
-    <li><a class="dropdown-item" href="{% url 'myapp:logout' %}">Logout</a></li>
-  </ul>
-</div>
+
   {% else%}
          <div class="d-flex align-items-center navbar-nav me-auto mb-2 mb-lg-0"> <a class="nav-link" href="{% url 'myapp:login' %}">Login</a>
            <div class="d-flex align-items-center  navbar-nav me-auto mb-2 mb-lg-0"> <a class="nav-link" href="{% url 'myapp:signup' %}">Signup</a>
